@@ -88,7 +88,6 @@ class AssetViewer:
         """
         self.sprite_sheet = sprite_sheet
         self.fps = fps
-        self.scale = scale
         self.current_frame = 0
         self.is_playing = False
 
@@ -96,12 +95,34 @@ class AssetViewer:
         self.root = tk.Tk()
         self.root.title(f"Asset Viewer - {os.path.basename(sprite_sheet.filepath)}")
 
+        # Auto-adjust scale to fit screen
+        self.scale = self._calculate_scale(scale)
+
         # Create UI
         self._create_ui()
 
         # Animation timer
         self.frame_delay = int(1000 / fps)  # milliseconds
         self.after_id = None
+
+    def _calculate_scale(self, requested_scale: int) -> int:
+        """Calculate optimal scale factor to fit screen"""
+        screen_width = self.root.winfo_screenwidth()
+        screen_height = self.root.winfo_screenheight()
+
+        # Reserve space for UI elements (controls, labels, padding)
+        available_width = screen_width - 100
+        available_height = screen_height - 250
+
+        frame = self.sprite_sheet.get_frame(0)
+
+        # Calculate maximum scale that fits
+        max_scale_width = available_width // frame.width
+        max_scale_height = available_height // frame.height
+        max_scale = min(max_scale_width, max_scale_height)
+
+        # Use requested scale if it fits, otherwise use maximum
+        return min(requested_scale, max(1, max_scale))
 
     def _create_ui(self):
         """Create the user interface"""
