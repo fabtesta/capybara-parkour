@@ -1,0 +1,1 @@
+python example_game.py --port /dev/ttyS0

@@ -1,0 +1,2 @@
+# Development tools (optional)
+pillow>=9.0.0  # For asset-viewer.py and split-sprite-sheet.py

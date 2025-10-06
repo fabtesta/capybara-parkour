@@ -1,0 +1,3 @@
+# Capybara Parkour - Python Dependencies
+# Core dependencies for game engine
+pyserial>=3.5
