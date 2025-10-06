@@ -64,20 +64,20 @@ class CapybaraGame(Game):
         # IMPORTANT: Update these IDs to match your actual Nextion picture resources!
 
         # Example mapping (adjust based on your import order):
-        # Walk frames: IDs 0-11 (12 frames from 4x3 grid)
-        walk_frame_ids = list(range(0, 12))
+        # Walk frames: IDs 0-3 (4 frames from 4x1 grid)
+        walk_frame_ids = list(range(0, 3))
 
-        # Run frames: IDs 12-23 (12 frames from 4x3 grid)
-        run_frame_ids = list(range(12, 24))
+        # Run frames: IDs 4-7 (4 frames from 4x1 grid)
+        run_frame_ids = list(range(4, 7))
 
-        # Jump frames: IDs 24-35 (12 frames from 4x3 grid)
-        jump_frame_ids = list(range(24, 36))
+        # Jump frames: IDs 8-11 (4 frames from 4x1 grid)
+        jump_frame_ids = list(range(8, 11))
 
         # Create animations
         idle_anim = Animation("idle", frame_ids=[0], fps=1, loop=True)
-        walk_anim = Animation("walk", frame_ids=walk_frame_ids, fps=10, loop=True)
-        run_anim = Animation("run", frame_ids=run_frame_ids, fps=15, loop=True)
-        jump_anim = Animation("jump", frame_ids=jump_frame_ids, fps=12, loop=False)
+        walk_anim = Animation("walk", frame_ids=walk_frame_ids, fps=4, loop=True)
+        run_anim = Animation("run", frame_ids=run_frame_ids, fps=4, loop=True)
+        jump_anim = Animation("jump", frame_ids=jump_frame_ids, fps=4, loop=False)
 
         # Add animations to sprite
         capybara.add_animation(idle_anim)
@@ -130,6 +130,12 @@ class CapybaraGame(Game):
             self.capybara_velocity_x = self.walk_speed
             if not self.is_jumping and capybara.current_animation.name != "walk":
                 capybara.play("walk")
+
+        elif self.game_input.is_pressed("idle"):
+            # Idle
+            self.capybara_velocity_x = 0
+            if not self.is_jumping and capybara.current_animation.name not in ["idle"]:
+                capybara.play("idle")
 
         else:
             # Idle (no movement input)

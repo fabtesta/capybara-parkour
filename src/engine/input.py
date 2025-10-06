@@ -59,7 +59,7 @@ class InputHandler:
             term_index = self.buffer.find(b"\xff\xff\xff")
             message = self.buffer[:term_index]
             self.buffer = self.buffer[term_index + 3:]
-
+            print(f"Processing message: {message}")
             # Process the message
             self._handle_message(message)
 
@@ -76,7 +76,7 @@ class InputHandler:
         try:
             # Try to decode as text (for custom print commands)
             msg_str = message.decode('latin1').strip()
-
+            print(f"Decoded message: {msg_str}")
             # Check if any registered callbacks match
             for event_name, callback in self.callbacks.items():
                 if event_name in msg_str:

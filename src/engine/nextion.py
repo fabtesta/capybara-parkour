@@ -80,6 +80,7 @@ class NextionDisplay:
             with self._lock:
                 full_command = command.encode() + self.CMD_END
                 self.ser.write(full_command)
+                print(f"Sent command: {command}")
                 return True
         except serial.SerialException as e:
             print(f"Error sending command: {e}")
@@ -189,7 +190,9 @@ class NextionDisplay:
         try:
             with self._lock:
                 if self.ser.in_waiting > 0:
-                    return self.ser.read(min(self.ser.in_waiting, max_bytes))
+                    data = self.ser.read(min(self.ser.in_waiting, max_bytes))
+                    print(f"Received data: {data}")
+                    return data
         except serial.SerialException as e:
             print(f"Error reading data: {e}")
 
@@ -215,6 +218,7 @@ class NextionDisplay:
                     self.ser.timeout = timeout
                 data = self.ser.read_until(self.CMD_END)
                 self.ser.timeout = old_timeout
+                print(f"Received data: {data}")
                 return data
         except serial.SerialException as e:
             print(f"Error reading data: {e}")

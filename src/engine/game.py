@@ -148,6 +148,10 @@ class Game:
             elif self.game_input.is_just_pressed("run"):
                 capybara.play("run")
 
+            # Handle idle button
+            elif self.game_input.is_just_pressed("idle"):
+                capybara.play("idle")
+
             # Return to idle after non-looping animation
             if capybara.is_animation_finished():
                 capybara.play("idle")
